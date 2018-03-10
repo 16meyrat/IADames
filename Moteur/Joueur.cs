@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IAEchecs.Moteur
+namespace IADames.Moteur
 {
     abstract class Joueur
     {

@@ -1,9 +1,9 @@
-﻿using IAEchecs.Moteur;
+﻿using IADames.Moteur;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace IAEchecs.Pieces
+namespace IADames.Pieces
 {
     class Pion : Piece
     {

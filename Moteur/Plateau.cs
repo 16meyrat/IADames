@@ -1,4 +1,4 @@
-﻿using IAEchecs.Pieces;
+﻿using IADames.Pieces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,19 +6,19 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IAEchecs.Moteur
+namespace IADames.Moteur
 {
     public class Plateau
     {
-        internal Piece[,] Grille { get; private set; } = new Piece[8, 8];
+        internal Piece[,] Grille { get; private set; } = new Piece[10, 10];
         public bool EstEchec { get; private set; } = false;
 
         public Plateau()
         {
-            for(int x=0; x<8; x++)
+            for(int x=0; x<10; x++)
             {
                 Grille[x, 1] = new Pion(true);
-                Grille[x, 6] = new Pion(false);
+                Grille[x, 8] = new Pion(false);
 
                 //TODO autres pieces
             }
@@ -28,7 +28,7 @@ namespace IAEchecs.Moteur
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool EstDansLePlateau(Coords coords)
         {
-            return coords.X>=0 && coords.Y>=0 && coords.X < 8 && coords.Y < 8;
+            return coords.X>=0 && coords.Y>=0 && coords.X < 10 && coords.Y < 10;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

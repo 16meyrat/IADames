@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IAEchecs.Moteur {
+namespace IADames.Moteur {
 
     class Jeu
     {
@@ -34,7 +34,7 @@ namespace IAEchecs.Moteur {
             {
                 Console.WriteLine("Les Blancs ont voulu jouer un coup incorrect");
             }
-                Console.WriteLine("fin otur");
+                Console.WriteLine("fin tour");
             ui.AfficherPlateau(Plateau);
 
             ui.AfficherTour(false);

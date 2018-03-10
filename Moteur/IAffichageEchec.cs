@@ -1,5 +1,5 @@
 ﻿
-namespace IAEchecs.Moteur
+namespace IADames.Moteur
 {
     interface IAffichageEchec
     {

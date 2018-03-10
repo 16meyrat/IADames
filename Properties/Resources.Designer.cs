@@ -63,9 +63,9 @@ namespace IAEchecs.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ChessPiecesArray {
+        internal static System.Drawing.Bitmap DamesPiecesArray {
             get {
-                object obj = ResourceManager.GetObject("ChessPiecesArray", resourceCulture);
+                object obj = ResourceManager.GetObject("DamesPiecesArray", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -1,11 +1,11 @@
-﻿using IAEchecs.Pieces;
+﻿using IADames.Pieces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IAEchecs.Moteur
+namespace IADames.Moteur
 {
     class Mouvement
     {

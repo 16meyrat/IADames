@@ -1,12 +1,12 @@
-﻿using IAEchecs.Pieces;
+﻿using IADames.Pieces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace IAEchecs
+namespace IADames
 {
-    class CaseEchec : Control
+    class CaseDames : Control
     {
         private int x, y;
 
@@ -16,7 +16,7 @@ namespace IAEchecs
 
         private Boolean selectionnee = false;
 
-        public CaseEchec(int posX, int posY) : base()
+        public CaseDames(int posX, int posY) : base()
         {
             x = posX;
             y = posY;
@@ -26,7 +26,7 @@ namespace IAEchecs
             }
             else
             {
-                BackColor = Color.Teal;
+                BackColor = Color.Sienna;
             }
             this.Dock = DockStyle.Fill;
             Padding = new Padding(0);
@@ -40,7 +40,11 @@ namespace IAEchecs
             if (sprite != null)
             {
                 e.Graphics.DrawImage(sprite, new Rectangle(0, 0, this.Width, this.Height));
-            }    
+            }
+            if (selectionnee)
+            {
+                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(125, Color.White)), ClientRectangle);
+            }
             
         }
 
@@ -54,6 +58,7 @@ namespace IAEchecs
             {
                 if (selectionnee)
                 {
+
                     Deselectionner();
                 }
                 else
@@ -67,12 +72,13 @@ namespace IAEchecs
         public void Selectionner()
         {
             selectionnee = true;
-            this.ForeColor = Color.FromArgb(150, Color.Orange);
+            Refresh();
         }
         public void Deselectionner()
         {
+            Console.WriteLine("Deselection " + x);
             selectionnee = false;
-            this.ForeColor = default(Color);
+            Refresh();
         }
     }
 

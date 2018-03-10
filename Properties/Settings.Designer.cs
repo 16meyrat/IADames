@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IAEchecs.Properties
+namespace IADames.Properties
 {
 
 

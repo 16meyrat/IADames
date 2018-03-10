@@ -1,4 +1,4 @@
-﻿using IAEchecs.Moteur;
+﻿using IADames.Moteur;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IAEchecs.Pieces
+namespace IADames.Pieces
 {
 
     abstract class Piece

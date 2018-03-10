@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IAEchecs.Pieces
+namespace IADames.Pieces
 {
     public class Coords:IEquatable<Coords>
     {
@@ -27,7 +27,7 @@ namespace IAEchecs.Pieces
 
         public static bool operator !=(Coords l, Coords r) => !(r == l);
 
-        public bool Equals(Coords other) => this == other;
+        public bool Equals(Coords other) => X == other.X && Y== other.Y;
 
         public override bool Equals(object obj)
         {
