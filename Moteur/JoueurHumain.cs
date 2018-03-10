@@ -58,20 +58,22 @@ namespace IADames.Moteur
 
         public void OnCaseSelectionnee(Object sender, SelectionCaseEventArg e)
         {
-            if (e.Handled && !aLeTrait) return;
+            if (e.Handled || !aLeTrait) return;
             deselectionnerToutesLesCases += e.Deselectionner;
 
-            if (e.Selectionnee)
+            if (!e.Selectionnee)
             {
                 if(debutMouvement == null)
                 {
                     debutMouvement = new Coords((sbyte)e.X, (sbyte)e.Y);
                     Console.WriteLine("debut mouv");
+                    e.Selectionnee = true;
                 }
                 else
                 {
                     Console.WriteLine("fin mouv "+EstBlanc);
                     aJoue.TrySetResult(new Mouvement(debutMouvement, new Coords((sbyte)e.X, (sbyte)e.Y)));
+                    e.Selectionnee = false;
                 }
             }
             else

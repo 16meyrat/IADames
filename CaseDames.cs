@@ -51,12 +51,12 @@ namespace IADames
         protected override void OnClick(EventArgs e)
         {
             base.OnClick(e);
-            SelectionCaseEventArg args = new SelectionCaseEventArg(x, y, !selectionnee, Deselectionner );
+            SelectionCaseEventArg args = new SelectionCaseEventArg(x, y, selectionnee, Deselectionner );
        
             CaseCliqueeEvent?.Invoke(this, args);
             if (args.Handled)
             {
-                if (selectionnee)
+                if (!args.Selectionnee)
                 {
 
                     Deselectionner();
@@ -76,7 +76,7 @@ namespace IADames
         }
         public void Deselectionner()
         {
-            Console.WriteLine("Deselection " + x);
+            Console.WriteLine("Deselection " + x + ";" + y);
             selectionnee = false;
             Refresh();
         }
@@ -86,7 +86,7 @@ namespace IADames
     {
         public int X;
         public int Y;
-        public readonly bool Selectionnee;
+        public bool Selectionnee;
         public Action Deselectionner; // a appeler quand on veut deselectionner la case qui a ete cliquee
         public bool Handled = false;
 
