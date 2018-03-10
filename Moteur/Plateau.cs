@@ -10,19 +10,28 @@ namespace IADames.Moteur
 {
     public class Plateau
     {
-        internal Piece[,] Grille { get; private set; } = new Piece[10, 10];
+        public Piece[,] Grille { get; private set; } = new Piece[10, 10];
         public bool EstEchec { get; private set; } = false;
 
         public Plateau()
         {
-            for(int x=0; x<10; x++)
+            for(int y = 0; y < 5; y++)
             {
-                Grille[x, 1] = new Pion(true);
-                Grille[x, 8] = new Pion(false);
+                for(int x = 0; x < 10; x++)
+                {
+                    if ((x + y) % 2 == 0)
+                    {
+                        Grille[x, y] = new Pion(true);
+                    }
+                }
 
-                //TODO autres pieces
             }
            
+        }
+
+        public Plateau(Plateau autre)
+        {
+            Grille = (Piece[,])autre.Grille.Clone();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -39,10 +48,28 @@ namespace IADames.Moteur
 
         internal bool Effectuer(Mouvement mouv, bool joueurEstBlanc)
         {
-            if (!mouv.EstValide(this, joueurEstBlanc)) return false;
-            Grille[mouv.Arrivee.X, mouv.Arrivee.Y] = Get(mouv.Depart);
-            Grille[mouv.Depart.X, mouv.Depart.Y] = null;
-            return true;
+            Piece piece = Get(mouv.Depart);
+            Coords origine = mouv.Depart;
+            if (piece == null || piece.EstBlanc != joueurEstBlanc || mouv.Sauts.Count==0) return false;
+            int nbPrises = 0;
+            foreach(var coord in mouv.Sauts)
+            {
+                if (!piece.EstSimplementValide(this, origine, coord, ref nbPrises)) return false;
+            }
+            //verification du meilleur mouvement possible
+            List<int> nbsPrises = new List<int>();
+            for(int i=0; i< 10; i++)
+            {
+                for(int j=0; j<10; j++)
+                {
+                    if(Grille[i, j]?.EstBlanc == joueurEstBlanc)
+                    {
+                        nbsPrises.Add(Grille[i, j].GetMaxPrisesPossibles(this, new Coords((sbyte)i, (sbyte)j)));
+                    }             
+                }
+            }
+
+            return nbsPrises.Max() == nbPrises;
 
         }
 

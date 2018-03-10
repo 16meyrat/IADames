@@ -33,13 +33,14 @@ namespace IADames.Moteur
             Mouvement mouv = null;
             while (!valide)
             {
-                debutMouvement = null;
+                debutMouvement = default;
                 aJoue = new TaskCompletionSource<Mouvement>();
 
                 mouv = await aJoue.Task;
 
                 Console.WriteLine("mouv choisi");
-                valide = mouv.EstValide(plateau, EstBlanc);
+                Plateau test = new Plateau(plateau);
+                valide = test.Effectuer(mouv, EstBlanc);
 
                 if (!valide)
                 {
@@ -63,7 +64,7 @@ namespace IADames.Moteur
 
             if (!e.Selectionnee)
             {
-                if(debutMouvement == null)
+                if(debutMouvement.EstNull())
                 {
                     debutMouvement = new Coords((sbyte)e.X, (sbyte)e.Y);
                     Console.WriteLine("debut mouv");
@@ -78,7 +79,7 @@ namespace IADames.Moteur
             }
             else
             {
-                debutMouvement = null;
+                debutMouvement = default;
             }
 
             e.Handled = true;

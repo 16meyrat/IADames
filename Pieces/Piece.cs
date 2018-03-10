@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 namespace IADames.Pieces
 {
 
-    abstract class Piece
+    public abstract class Piece
     {
+        internal bool flag = false; // ce flag doit etre nettoye apres utilisation. A utiliser pour ce qu'on veut 
+
         public Piece(bool estBlanc)
         {
             EstBlanc = estBlanc;
@@ -19,7 +21,9 @@ namespace IADames.Pieces
 
         public readonly bool EstBlanc;
 
-        public abstract IEnumerable<Coords> GetMouvementsPossibles(Plateau plateau, Coords position);
+        public abstract int GetMaxPrisesPossibles(Plateau plateau, Coords position);
+
+        public abstract bool EstSimplementValide(Plateau plateau, Coords origine, Coords fin, ref int nbPrises);
 
         public abstract Image GetSprite();
 

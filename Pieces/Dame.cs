@@ -20,7 +20,12 @@ namespace IADames.Pieces
             return new Dame(aCopier.EstBlanc);
         }
 
-        public override IEnumerable<Coords> GetMouvementsPossibles(Plateau plateau, Coords position)
+        public override bool EstSimplementValide(Plateau plateau, Coords origine, Coords fin, ref int nbPrises)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int GetMaxPrisesPossibles(Plateau plateau, Coords position)
         {
             throw new NotImplementedException();
         }
