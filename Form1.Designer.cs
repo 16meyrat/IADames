@@ -30,7 +30,7 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.plateauLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.boutonDemarrer = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -49,7 +49,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.button1);
+            this.splitContainer1.Panel2.Controls.Add(this.boutonDemarrer);
             this.splitContainer1.Size = new System.Drawing.Size(658, 489);
             this.splitContainer1.SplitterDistance = 473;
             this.splitContainer1.TabIndex = 0;
@@ -81,14 +81,16 @@
             this.plateauLayout.Size = new System.Drawing.Size(458, 465);
             this.plateauLayout.TabIndex = 0;
             // 
-            // button1
+            // boutonDemarrer
             // 
-            this.button1.Location = new System.Drawing.Point(50, 23);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.boutonDemarrer.AutoSize = true;
+            this.boutonDemarrer.Location = new System.Drawing.Point(50, 23);
+            this.boutonDemarrer.Name = "boutonDemarrer";
+            this.boutonDemarrer.Size = new System.Drawing.Size(78, 27);
+            this.boutonDemarrer.TabIndex = 0;
+            this.boutonDemarrer.Text = "Demarrer";
+            this.boutonDemarrer.UseVisualStyleBackColor = true;
+            this.boutonDemarrer.Click += new System.EventHandler(this.boutonDemarrer_Click);
             // 
             // MainWindowForm
             // 
@@ -101,6 +103,7 @@
             this.Load += new System.EventHandler(this.MainWindowForm_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -111,7 +114,7 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TableLayoutPanel plateauLayout;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button boutonDemarrer;
     }
 }
 

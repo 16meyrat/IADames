@@ -18,11 +18,13 @@ namespace IAEchecs.Moteur
             Arrivee = arrivee;
         }
 
-        public bool EstValide(Plateau plateau)
+        public bool EstValide(Plateau plateau, bool couleurJoueur)
         {
             if (!Plateau.EstDansLePlateau(Depart)) return false;
             Piece piece = plateau.Get(Depart);
             if (piece == null) return false;
+            if (piece.EstBlanc != couleurJoueur) return false;
+
             foreach(Coords destination in piece.GetMouvementsPossibles(plateau, Depart))
             {
                 if (destination == Arrivee) return true;

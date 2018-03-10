@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IAEchecs.Pieces
 {
-    class Coords:IEquatable<Coords>
+    public class Coords:IEquatable<Coords>
     {
         public readonly sbyte X;
         public readonly sbyte Y;
@@ -23,7 +23,7 @@ namespace IAEchecs.Pieces
             return new Coords((sbyte)(X + plusX), (sbyte)(Y + plusY));
         }
 
-        public static bool operator ==(Coords l, Coords r) => l.X == r.X && l.Y == r.Y;
+        public static bool operator ==(Coords l, Coords r) => Equals(l, r);
 
         public static bool operator !=(Coords l, Coords r) => !(r == l);
 

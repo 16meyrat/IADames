@@ -55,7 +55,10 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.cs" />
+    <Compile Include="Moteur\IAffichageEchec.cs" />
     <Compile Include="Moteur\Jeu.cs" />
+    <Compile Include="Moteur\Joueur.cs" />
+    <Compile Include="Moteur\JoueurHumain.cs" />
     <Compile Include="Moteur\Mouvement.cs" />
     <Compile Include="Moteur\Plateau.cs" />
     <Compile Include="Pieces\Coords.cs" />
