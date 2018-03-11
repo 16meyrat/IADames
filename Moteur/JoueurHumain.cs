@@ -92,7 +92,7 @@ namespace IADames.Moteur
                         mouvement.Sauts.Enqueue(choisie);
                         e.Selectionnee = true;
                     }
-                    if(mouvement.Sauts.Count == 1)
+                    if(mouvement.GetNbPrises(plateauTMP) == plateauTMP.GetMaxPrisesPossible(EstBlanc))
                     {
                         e.Selectionnee = false;
                         aJoue.TrySetResult(mouvement);
@@ -103,6 +103,7 @@ namespace IADames.Moteur
             else
             {
                 mouvement = null;
+                deselectionnerToutesLesCases();
             }
 
             e.Handled = true;

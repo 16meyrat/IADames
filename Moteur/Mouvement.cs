@@ -26,6 +26,30 @@ namespace IADames.Moteur
             return Sauts.Count > 0 ? Sauts.Last() : Depart;
         }
 
+        public int GetNbPrises(Plateau plateau)
+        {
+            if (Sauts.Count > 1)
+            {
+                return Sauts.Count - 1;
+            }
+            else
+            {
+                Coords distance = Sauts.Peek() - Depart;
+                distance = distance / (sbyte)distance.Longueur();
+                Coords tmp = Depart;
+                while(tmp != Sauts.Peek())
+                {
+                    tmp = tmp + distance;
+                    if (plateau.Get(tmp) != null)
+                    {
+                        return 1;
+                    }
+                }
+                return 0;
+            }
+            
+        }
+
       
     }
 }

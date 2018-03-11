@@ -91,6 +91,7 @@ namespace IADames.Pieces
             if (!Plateau.EstDansLePlateau(fin)) return false;
             Coords distance = fin - origine;
             Pion pion = (Pion)plateau.Get(origine);
+            if (pion == null) return false;
             Coords diag1 = pion.EstBlanc ? new Coords(-1, 1) : new Coords(-1, -1);
             Coords diag2 = pion.EstBlanc ? new Coords(1, 1) : new Coords(1, -1);
 
