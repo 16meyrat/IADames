@@ -15,9 +15,9 @@ namespace IADames.Moteur
 
         public Plateau()
         {
-            for(int y = 0; y < 5; y++)
+            for (int x = 0; x < 10; x++)
             {
-                for(int x = 0; x < 10; x++)
+                for (int y = 0; y < 5; y++)
                 {
                     if ((x + y) % 2 == 0)
                     {
@@ -25,7 +25,15 @@ namespace IADames.Moteur
                     }
                 }
 
+                for (int y = 6; y < 10; y++)
+                {
+                    if ((x + y) % 2 == 0)
+                    {
+                        Grille[x, y] = new Pion(false);
+                    }
+                }
             }
+           
            
         }
 
@@ -46,6 +54,23 @@ namespace IADames.Moteur
             return Grille[coords.X, coords.Y];
         }
 
+        internal int GetMaxPrisesPossible(bool joueurEstBlanc)
+        {
+            List<int> nbsPrises = new List<int>();
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    if (Grille[i, j]?.EstBlanc == joueurEstBlanc)
+                    {
+                        nbsPrises.Add(Grille[i, j].GetMaxPrisesPossibles(this, new Coords((sbyte)i, (sbyte)j)));
+                    }
+                }
+            }
+
+            return nbsPrises.Max();
+        }
+
         internal bool Effectuer(Mouvement mouv, bool joueurEstBlanc)
         {
             Piece piece = Get(mouv.Depart);
@@ -55,21 +80,33 @@ namespace IADames.Moteur
             foreach(var coord in mouv.Sauts)
             {
                 if (!piece.EstSimplementValide(this, origine, coord, ref nbPrises)) return false;
+                origine = coord;
             }
             //verification du meilleur mouvement possible
-            List<int> nbsPrises = new List<int>();
-            for(int i=0; i< 10; i++)
+            if (nbPrises < GetMaxPrisesPossible(joueurEstBlanc))
             {
-                for(int j=0; j<10; j++)
-                {
-                    if(Grille[i, j]?.EstBlanc == joueurEstBlanc)
-                    {
-                        nbsPrises.Add(Grille[i, j].GetMaxPrisesPossibles(this, new Coords((sbyte)i, (sbyte)j)));
-                    }             
-                }
+                Console.WriteLine("Il existe un coup qui prend plus de pions");
+                return false;
             }
 
-            return nbsPrises.Max() == nbPrises;
+            //on a le meilleur mouvement, et il est valide : on peut l'effectuer
+            
+            Coords tmp = new Coords();
+            origine = mouv.Depart;
+            Grille[origine.X, origine.Y] = null;
+            foreach (var coord in mouv.Sauts)
+            {
+                tmp = coord - origine;
+                if (tmp.Longueur() == 2)
+                {
+                    tmp = origine + tmp / 2;
+                    Grille[tmp.X, tmp.Y] = null;
+                }
+                origine = coord;
+            }
+            //ici, origine vaut la derniere case du deplacement
+            Grille[origine.X, origine.Y] = piece;
+            return true;
 
         }
 

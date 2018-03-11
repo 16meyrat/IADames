@@ -94,12 +94,17 @@ namespace IADames.Pieces
         {
             if (!Plateau.EstDansLePlateau(fin)) return false;
             Coords distance = fin - origine;
+            Pion pion = (Pion)plateau.Get(origine);
+            Coords diag1 = pion.EstBlanc ? new Coords(-1, 1) : new Coords(-1, -1);
+            Coords diag2 = pion.EstBlanc ? new Coords(1, 1) : new Coords(1, -1);
+
             if (distance.EstDiag()){
                 if(distance.Longueur() == 1)
                 {
+                    if (distance != diag1 && distance != diag2) return false;
                     return plateau.Get(fin) == null;
                 }
-                else if(distance.Longueur() == 2 && plateau.Get(origine + distance / 2) != null)
+                else if(distance.Longueur() == 2 && plateau.Get(origine + distance / 2)?.EstBlanc != pion.EstBlanc)
                 {
                     nbPrises++;
                     return plateau.Get(fin) == null;

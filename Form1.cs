@@ -57,9 +57,5 @@ namespace IADames
             await Jeu.Jouer();
         }
 
-        private void plateauLayout_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }

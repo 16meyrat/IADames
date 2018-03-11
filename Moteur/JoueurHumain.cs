@@ -10,9 +10,10 @@ namespace IADames.Moteur
     class JoueurHumain : Joueur
     {
         TaskCompletionSource<Mouvement> aJoue = null;
-        private Coords debutMouvement;
+        private Mouvement mouvement;
         private Plateau plateauTMP;
         private bool aLeTrait = false;
+        private int nbDePrisesTmp = 0;
 
         private Action deselectionnerToutesLesCases;
 
@@ -30,17 +31,19 @@ namespace IADames.Moteur
             aLeTrait = true;
             plateauTMP = plateau;
             var valide = false;
-            Mouvement mouv = null;
+            mouvement = null;
+            Mouvement mouvFinal = null;
+            
             while (!valide)
             {
-                debutMouvement = default;
+                mouvement = null;
                 aJoue = new TaskCompletionSource<Mouvement>();
-
-                mouv = await aJoue.Task;
+                nbDePrisesTmp = 0;
+                mouvFinal = await aJoue.Task;
 
                 Console.WriteLine("mouv choisi");
                 Plateau test = new Plateau(plateau);
-                valide = test.Effectuer(mouv, EstBlanc);
+                valide = test.Effectuer(mouvFinal, EstBlanc);
 
                 if (!valide)
                 {
@@ -54,7 +57,7 @@ namespace IADames.Moteur
             deselectionnerToutesLesCases();
             deselectionnerToutesLesCases = null;
             aLeTrait = false;
-            return mouv;
+            return mouvFinal;
         }
 
         public void OnCaseSelectionnee(Object sender, SelectionCaseEventArg e)
@@ -64,22 +67,42 @@ namespace IADames.Moteur
 
             if (!e.Selectionnee)
             {
-                if(debutMouvement.EstNull())
+                if(mouvement == null)
                 {
-                    debutMouvement = new Coords((sbyte)e.X, (sbyte)e.Y);
-                    Console.WriteLine("debut mouv");
-                    e.Selectionnee = true;
+                    var debut = new Coords((sbyte)e.X, (sbyte)e.Y);
+                    if(plateauTMP.Get(debut)?.EstBlanc == EstBlanc)
+                    {
+                        mouvement = new Mouvement(debut);
+                        Console.WriteLine("debut mouv");
+                        e.Selectionnee = true;
+                    }
+                    else
+                    {
+                        e.Selectionnee = false;
+                    }
+                    
                 }
                 else
                 {
-                    Console.WriteLine("fin mouv "+EstBlanc);
-                    aJoue.TrySetResult(new Mouvement(debutMouvement, new Coords((sbyte)e.X, (sbyte)e.Y)));
-                    e.Selectionnee = false;
+                    Console.WriteLine("saut "+EstBlanc);
+                    Piece piece = plateauTMP.Get(mouvement.Depart);
+                    Coords choisie = new Coords((sbyte)e.X, (sbyte)e.Y);
+                    if (piece.EstSimplementValide(plateauTMP, mouvement.DernierePosition(), choisie, ref nbDePrisesTmp))
+                    {
+                        mouvement.Sauts.Enqueue(choisie);
+                        e.Selectionnee = true;
+                    }
+                    if(mouvement.Sauts.Count == 1)
+                    {
+                        e.Selectionnee = false;
+                        aJoue.TrySetResult(mouvement);
+                    }
+                
                 }
             }
             else
             {
-                debutMouvement = default;
+                mouvement = null;
             }
 
             e.Handled = true;

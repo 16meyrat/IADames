@@ -84,7 +84,6 @@
             this.plateauLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.plateauLayout.Size = new System.Drawing.Size(460, 465);
             this.plateauLayout.TabIndex = 0;
-            this.plateauLayout.Paint += new System.Windows.Forms.PaintEventHandler(this.plateauLayout_Paint);
             // 
             // boutonDemarrer
             // 
