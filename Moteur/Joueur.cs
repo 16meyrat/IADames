@@ -15,6 +15,6 @@ namespace IADames.Moteur
             EstBlanc = estBlanc;
         }
 
-        public abstract Task<Mouvement> JouerAsync(Plateau plateau);
+        public abstract Mouvement Jouer(Plateau plateau);
     }
 }

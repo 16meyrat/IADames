@@ -19,14 +19,14 @@ namespace IADames.Moteur
 
         public JoueurHumain(bool estBlanc, MainWindowForm echequierUI) : base(estBlanc)
         {
-            foreach(var cellule in echequierUI.CasesEchec)
+            foreach(var cellule in echequierUI.CasesDames)
             {
                 cellule.CaseCliqueeEvent += OnCaseSelectionnee;
             }
             
         }
 
-        public override async Task<Mouvement> JouerAsync(Plateau plateau)
+        public override Mouvement Jouer(Plateau plateau)
         {
             aLeTrait = true;
             plateauTMP = plateau;
@@ -39,7 +39,7 @@ namespace IADames.Moteur
                 mouvement = null;
                 aJoue = new TaskCompletionSource<Mouvement>();
                 nbDePrisesTmp = 0;
-                mouvFinal = await aJoue.Task;
+                mouvFinal =  aJoue.Task.Result;
 
                 Console.WriteLine("mouv choisi");
                 Plateau test = new Plateau(plateau);

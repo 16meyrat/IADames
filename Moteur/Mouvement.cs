@@ -34,6 +34,7 @@ namespace IADames.Moteur
             }
             else
             {
+                if (Sauts.Count == 0) return -1;
                 Coords distance = Sauts.Peek() - Depart; //file d'attente vide ????
                 distance = distance / (sbyte)distance.Longueur();
                 Coords tmp = Depart;

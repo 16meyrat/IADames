@@ -72,13 +72,18 @@ namespace IADames
         public void Selectionner()
         {
             selectionnee = true;
-            Refresh();
+            RefreshAsync();
         }
         public void Deselectionner()
         {
             Console.WriteLine("Deselection " + x + ";" + y);
             selectionnee = false;
-            Refresh();
+            RefreshAsync();
+
+        }
+        public void RefreshAsync()
+        {
+            this.Invoke(new Action(() => Refresh()));
         }
     }
 

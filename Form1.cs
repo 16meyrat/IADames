@@ -9,7 +9,7 @@ namespace IADames
     public partial class MainWindowForm : Form, IAffichageEchec
     {
 
-        internal CaseDames[,] CasesEchec { get; private set; }
+        internal CaseDames[,] CasesDames { get; private set; }
         private Jeu Jeu;
 
         public MainWindowForm()
@@ -20,14 +20,14 @@ namespace IADames
 
         private void MainWindowForm_Load(object sender, EventArgs e)
         {
-            CasesEchec = new CaseDames[10, 10];
+            CasesDames = new CaseDames[10, 10];
 
             for (int i=0; i<10; i++)
             {
                 for (int j=0; j<10; j++)
                 {
                     CaseDames cellule = new CaseDames(i, j);
-                    CasesEchec[i, j] = cellule;
+                    CasesDames[i, j] = cellule;
                     plateauLayout.Controls.Add(cellule, i, 9-j);
                 }
             }
@@ -40,8 +40,8 @@ namespace IADames
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    CasesEchec[i, j].Piece = plateau.Grille[i, j];
-                    CasesEchec[i, j].Refresh();
+                    CasesDames[i, j].Piece = plateau.Grille[i, j];
+                    CasesDames[i, j].RefreshAsync();
                 }
             }
         }

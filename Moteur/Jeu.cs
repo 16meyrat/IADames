@@ -27,23 +27,26 @@ namespace IADames.Moteur {
     public async Task Jouer()
     {
         ui.AfficherPlateau(Plateau);
-        while (true)
-        {
-            ui.AfficherTour(true);
-            if(!Plateau.Effectuer(await JoueurB.JouerAsync(Plateau), true))
-            {
-                Console.WriteLine("Les Blancs ont voulu jouer un coup incorrect");
-            }
-                Console.WriteLine("fin tour");
-            ui.AfficherPlateau(Plateau);
+            await Task.Run(() => {
+                while (true)
+                {
+                    ui.AfficherTour(true);
+                    if (!Plateau.Effectuer(JoueurB.Jouer(Plateau), true))
+                    {
+                        Console.WriteLine("Les Blancs ont voulu jouer un coup incorrect");
+                    }
+                    Console.WriteLine("fin tour");
+                    ui.AfficherPlateau(Plateau);
 
-            ui.AfficherTour(false);
-            if (!Plateau.Effectuer(await JoueurN.JouerAsync(Plateau), false))
-            {
-                Console.WriteLine("Les Noirs ont voulu jouer un coup incorrect");
-            }
-            ui.AfficherPlateau(Plateau);
-        }
+                    ui.AfficherTour(false);
+                    if (!Plateau.Effectuer(JoueurN.Jouer(Plateau), false))
+                    {
+                        Console.WriteLine("Les Noirs ont voulu jouer un coup incorrect");
+                    }
+                    ui.AfficherPlateau(Plateau);
+                }
+            });
+        
     }
 }
 }
