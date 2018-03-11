@@ -94,15 +94,18 @@ namespace IADames.Pieces
             Coords diag2 = EstBlanc ? new Coords(1, 1) : new Coords(1, -1);
 
             if (distance.EstDiag()){
-                if(distance.Longueur() == 1)
+                if (distance.Longueur() == 1)
                 {
                     if (distance != diag1 && distance != diag2) return false;
                     return plateau.Get(fin) == null;
                 }
-                else if(distance.Longueur() == 2 && plateau.Get(origine + distance / 2)?.EstBlanc != EstBlanc)
-                {
-                    nbPrises++;
-                    return plateau.Get(fin) == null;
+                else if (distance.Longueur() == 2) {
+                    Piece tmp = plateau.Get(origine + distance / 2); 
+                    if (tmp!=null && tmp.EstBlanc != EstBlanc)
+                    {
+                        nbPrises++;
+                        return plateau.Get(fin) == null;
+                    }
                 }
             }
 
