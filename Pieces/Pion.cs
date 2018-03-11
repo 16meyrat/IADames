@@ -21,8 +21,8 @@ namespace IADames.Pieces
         public override int GetMaxPrisesPossibles(Plateau plateau, Coords position)
         {
 
-            Coords diag1 = new Coords(1, 1);
-            Coords diag2 = new Coords(-1, 1);
+            Coords diag1 = EstBlanc?new Coords(1, 1):new Coords(1, -1);
+            Coords diag2 = EstBlanc?new Coords(-1, 1) : new Coords(-1, -1);
 
             LinkedList<int> possibles = new LinkedList<int>(); // nombre de pieces qu'il est possible de prendre 
 

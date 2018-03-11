@@ -85,7 +85,7 @@ namespace IADames.Moteur
             //verification du meilleur mouvement possible
             if (nbPrises < GetMaxPrisesPossible(joueurEstBlanc))
             {
-                Console.WriteLine("Il existe un coup qui prend plus de pions");
+                Console.WriteLine("Il existe un coup qui prend plus de pions que "+nbPrises);
                 return false;
             }
 
