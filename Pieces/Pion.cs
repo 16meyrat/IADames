@@ -26,7 +26,7 @@ namespace IADames.Pieces
 
             LinkedList<int> possibles = new LinkedList<int>(); // nombre de pieces qu'il est possible de prendre 
 
-            GetMouvementsPossiblesRec(plateau, possibles, ref position, ref diag1, ref diag2);
+            GetMouvementsPossiblesRec(plateau, possibles, ref position);
 
             int maxi = int.MinValue;
             foreach(int prises in possibles)
@@ -39,50 +39,46 @@ namespace IADames.Pieces
             return maxi;
             
         }
+        private Coords[] GetDirections()
+        {
+            if (EstBlanc)
+            {
+                return new Coords[] { new Coords(1, 1), new Coords(-1, 1), new Coords(1, -1), new Coords(-1, -1) };
+            }
+            else{
+                return new Coords[] { new Coords(1, -1), new Coords(-1, -1), new Coords(1, 1), new Coords(-1, 1)  };
+            }
+        }
 
-        private void GetMouvementsPossiblesRec(Plateau plateau, LinkedList<int> possibles, ref Coords origine, ref Coords direction1, ref Coords direction2, int nbPrises=0)
+        private void GetMouvementsPossiblesRec(Plateau plateau, LinkedList<int> possibles, ref Coords origine,  int nbPrises=0)
         {
             Coords tmpPos;
             Piece tmpPiece;
-            tmpPos = origine + direction1;
-            if (Plateau.EstDansLePlateau(tmpPos)) {
-                tmpPiece = plateau.Get(tmpPos);
-                if(tmpPiece == null)
-                {
-                    possibles.AddLast(nbPrises);
-                }
-                else if(tmpPiece.EstBlanc != EstBlanc && !tmpPiece.flag)
-                {
-                    // flag pour ne pas ressauter des pieces
-                    tmpPos = tmpPos + direction1;
-                    if(Plateau.EstDansLePlateau(tmpPos) && plateau.Get(tmpPos) == null)
-                    {
-                        tmpPiece.flag = true;
-                        GetMouvementsPossiblesRec(plateau, possibles, ref tmpPos, ref direction1, ref direction2, nbPrises + 1);
-                        tmpPiece.flag = false;
-                    }
-                }
-            }
-            tmpPos = origine + direction2;
-            if (Plateau.EstDansLePlateau(tmpPos))
+            Coords[] directions = GetDirections();
+
+            possibles.AddLast(nbPrises);
+            for (int i=0; i<4; i++)
             {
-                tmpPiece = plateau.Get(tmpPos);
-                if (tmpPiece == null)
+                tmpPos = origine + directions[i];
+                if (Plateau.EstDansLePlateau(tmpPos))
                 {
-                    possibles.AddLast(nbPrises);
-                }
-                else if (tmpPiece.EstBlanc != EstBlanc && !tmpPiece.flag)
-                {
-                    // flag pour ne pas ressauter des pieces
-                    tmpPos = tmpPos + direction2;
-                    if (Plateau.EstDansLePlateau(tmpPos) && plateau.Get(tmpPos) == null)
+                    tmpPiece = plateau.Get(tmpPos);
+                    if (tmpPiece != null && tmpPiece.EstBlanc != EstBlanc && !tmpPiece.flag)
                     {
-                        tmpPiece.flag = true;
-                        GetMouvementsPossiblesRec(plateau, possibles, ref tmpPos, ref direction1, ref direction2, nbPrises + 1);
-                        tmpPiece.flag = false;
+                        
+                        tmpPos = tmpPos + directions[i];
+                        if (Plateau.EstDansLePlateau(tmpPos) && plateau.Get(tmpPos) == null)
+                        {
+                            // flag pour ne pas ressauter des pieces
+                            tmpPiece.flag = true;
+                            GetMouvementsPossiblesRec(plateau, possibles, ref tmpPos, nbPrises + 1);
+                            tmpPiece.flag = false;
+                        }
                     }
                 }
             }
+
+
         }
 
         public override Image GetSprite()
