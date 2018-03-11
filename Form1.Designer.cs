@@ -103,7 +103,7 @@
             this.ClientSize = new System.Drawing.Size(658, 489);
             this.Controls.Add(this.splitContainer1);
             this.Name = "MainWindowForm";
-            this.Text = "MainWindowForm";
+            this.Text = "Jeu de Dames Internationales";
             this.Load += new System.EventHandler(this.MainWindowForm_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AB1E7616-66F4-4820-B470-A2E47A1BBA2E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>IAEchecs</RootNamespace>
-    <AssemblyName>IAEchecs</AssemblyName>
+    <RootNamespace>IADames</RootNamespace>
+    <AssemblyName>IADames</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

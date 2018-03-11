@@ -1,4 +1,4 @@
-﻿using IAEchecs.Properties;
+﻿using IADames.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
