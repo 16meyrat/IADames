@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace IADames.Moteur {
+namespace IADames.Moteur
+{
 
     class Jeu
     {
@@ -15,38 +17,50 @@ namespace IADames.Moteur {
 
         private IAffichageEchec ui;
 
-    public Jeu(Joueur joueurB, Joueur joueurN, IAffichageEchec ui)
-    {
-        JoueurB = joueurB;
-        JoueurN = joueurN;
-        this.ui = ui;
+        public Jeu(Joueur joueurB, Joueur joueurN, IAffichageEchec ui)
+        {
+            JoueurB = joueurB;
+            JoueurN = joueurN;
+            this.ui = ui;
 
-        Plateau = new Plateau();
-    }
+            Plateau = new Plateau();
+        }
 
-    public async Task Jouer()
-    {
-        ui.AfficherPlateau(Plateau);
-            await Task.Run(() => {
-                while (true)
+        public async Task Jouer(CancellationToken annulation)
+        {
+            ui.AfficherPlateau(Plateau);
+
+            await Task.Run(() =>
+            {
+                try
                 {
-                    ui.AfficherTour(true);
-                    if (!Plateau.Effectuer(JoueurB.Jouer(Plateau), true))
+                    while (true)
                     {
-                        Console.WriteLine("Les Blancs ont voulu jouer un coup incorrect");
-                    }
-                    Console.WriteLine("fin tour");
-                    ui.AfficherPlateau(Plateau);
+                        ui.AfficherTour(true);
+                        if (!Plateau.Effectuer(JoueurB.Jouer(new Plateau(Plateau), annulation), true))
+                        {
+                            Console.WriteLine("Les Blancs ont voulu jouer un coup incorrect");
+                        }
+                        Console.WriteLine("fin tour");
+                        ui.AfficherPlateau(Plateau);
 
-                    ui.AfficherTour(false);
-                    if (!Plateau.Effectuer(JoueurN.Jouer(Plateau), false))
-                    {
-                        Console.WriteLine("Les Noirs ont voulu jouer un coup incorrect");
+                        ui.AfficherTour(false);
+                        if (!Plateau.Effectuer(JoueurN.Jouer(new Plateau(Plateau), annulation), false))
+                        {
+                            Console.WriteLine("Les Noirs ont voulu jouer un coup incorrect");
+                        }
+                        ui.AfficherPlateau(Plateau);
                     }
-                    ui.AfficherPlateau(Plateau);
                 }
+                catch (OperationCanceledException)
+                {
+                    Console.Write("Partie Annulee ");
+                    return;
+                }
+            }, annulation).ContinueWith((precedant)=>
+            {
+                Console.WriteLine(precedant.Status);
             });
-        
+        }
     }
-}
 }

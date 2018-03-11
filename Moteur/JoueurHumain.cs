@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace IADames.Moteur
@@ -26,7 +27,7 @@ namespace IADames.Moteur
             
         }
 
-        public override Mouvement Jouer(Plateau plateau)
+        public override Mouvement Jouer(Plateau plateau, CancellationToken annulation)
         {
             aLeTrait = true;
             plateauTMP = plateau;
@@ -37,9 +38,20 @@ namespace IADames.Moteur
             while (!valide)
             {
                 mouvement = null;
-                aJoue = new TaskCompletionSource<Mouvement>();
+                annulation.Register(() => aJoue.TrySetCanceled(annulation), true);
+                aJoue = new TaskCompletionSource<Mouvement>(annulation);
                 nbDePrisesTmp = 0;
-                mouvFinal =  aJoue.Task.Result;
+
+                try
+                {
+                    mouvFinal = aJoue.Task.Result;
+
+                }
+                catch (AggregateException)
+                {
+                    throw new OperationCanceledException();
+                }
+                
 
                 Console.WriteLine("mouv choisi");
                 Plateau test = new Plateau(plateau);
@@ -104,7 +116,7 @@ namespace IADames.Moteur
             else
             {
                 mouvement = null;
-                deselectionnerToutesLesCases();
+                deselectionnerToutesLesCases?.Invoke();
                 deselectionnerToutesLesCases = null;
                 e.Selectionnee = false;
             }

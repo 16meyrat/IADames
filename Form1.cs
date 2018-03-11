@@ -1,6 +1,7 @@
 ﻿using IADames.Moteur;
 using IADames.Pieces;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -11,6 +12,8 @@ namespace IADames
 
         internal CaseDames[,] CasesDames { get; private set; }
         private Jeu Jeu;
+        private Task TaskJeu;
+        CancellationTokenSource annulation;
 
         public MainWindowForm()
         {
@@ -53,8 +56,42 @@ namespace IADames
 
         private async void boutonDemarrer_Click(object sender, EventArgs e)
         {
-            Jeu = new Jeu(new JoueurHumain(true, this), new JoueurHumain(false, this), this);
-            await Jeu.Jouer();
+            if(annulation != null)
+            {
+                try
+                {
+                    annulation.Cancel(true);
+                    
+                }
+                catch (OperationCanceledException)
+                {
+                    Console.WriteLine("La partie a été annulée");             
+                }
+                foreach (var cellule in CasesDames)
+                {
+                  
+                    cellule.Reinitialiser();
+                }
+
+            }
+            
+            try {
+                annulation = new CancellationTokenSource();
+                Jeu = new Jeu(new JoueurHumain(true, this), new JoueurHumain(false, this), this);
+                Task debugTask = Jeu.Jouer(annulation.Token);
+                await debugTask;
+                
+            }
+            catch (OperationCanceledException)
+            { 
+                Console.WriteLine("Annulation ");
+            }
+            finally
+            {
+                annulation?.Dispose();
+                annulation = null;
+            }
+            
         }
 
     }

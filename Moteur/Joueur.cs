@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading;
 
 namespace IADames.Moteur
 {
@@ -15,6 +11,6 @@ namespace IADames.Moteur
             EstBlanc = estBlanc;
         }
 
-        public abstract Mouvement Jouer(Plateau plateau);
+        public abstract Mouvement Jouer(Plateau plateau, CancellationToken annulation);
     }
 }

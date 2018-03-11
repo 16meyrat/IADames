@@ -85,6 +85,16 @@ namespace IADames
         {
             this.Invoke(new Action(() => Refresh()));
         }
+
+        public void Reinitialiser()
+        {
+            foreach (Delegate d in CaseCliqueeEvent.GetInvocationList())
+            {
+                CaseCliqueeEvent -= (EventHandler<SelectionCaseEventArg>)d;
+            }
+            
+            Piece = null;
+        }
     }
 
     class SelectionCaseEventArg : EventArgs
