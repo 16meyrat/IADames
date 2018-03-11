@@ -30,11 +30,11 @@ namespace IADames.Moteur
         {
             if (Sauts.Count > 1)
             {
-                return Sauts.Count - 1;
+                return Sauts.Count;
             }
             else
             {
-                Coords distance = Sauts.Peek() - Depart;
+                Coords distance = Sauts.Peek() - Depart; //file d'attente vide ????
                 distance = distance / (sbyte)distance.Longueur();
                 Coords tmp = Depart;
                 while(tmp != Sauts.Peek())
