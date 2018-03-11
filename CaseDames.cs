@@ -31,6 +31,7 @@ namespace IADames
             this.Dock = DockStyle.Fill;
             Padding = new Padding(0);
             Margin = new Padding(0);
+            DoubleBuffered = true;
         }
 
         protected override void OnPaint(PaintEventArgs e)

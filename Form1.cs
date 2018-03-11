@@ -12,7 +12,6 @@ namespace IADames
 
         internal CaseDames[,] CasesDames { get; private set; }
         private Jeu Jeu;
-        private Task TaskJeu;
         CancellationTokenSource annulation;
 
         public MainWindowForm()
@@ -77,10 +76,9 @@ namespace IADames
             
             try {
                 annulation = new CancellationTokenSource();
-                Jeu = new Jeu(new JoueurHumain(true, this), new JoueurHumain(false, this), this);
-                Task debugTask = Jeu.Jouer(annulation.Token);
-                await debugTask;
-                
+                Jeu = new Jeu(new JoueurHumain(true, this), new JoueurHumain(false, this), this); 
+                await Jeu.Jouer(annulation.Token);
+
             }
             catch (OperationCanceledException)
             { 
