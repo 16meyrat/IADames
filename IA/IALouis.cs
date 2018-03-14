@@ -10,7 +10,7 @@ namespace IAEchecs.IA
 {
     class IALouis : Joueur
     {
-        protected IALouis(bool estBlanc) : base(estBlanc)
+        public IALouis(bool estBlanc) : base(estBlanc)
         {
         }
 

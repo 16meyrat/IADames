@@ -128,6 +128,7 @@
             // 
             // SelectionNoirs
             // 
+            this.SelectionNoirs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SelectionNoirs.FormattingEnabled = true;
             this.SelectionNoirs.Location = new System.Drawing.Point(24, 92);
             this.SelectionNoirs.Name = "SelectionNoirs";
@@ -136,7 +137,7 @@
             // 
             // SelectionBlancs
             // 
-            this.SelectionBlancs.FormattingEnabled = true;
+            this.SelectionBlancs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SelectionBlancs.Location = new System.Drawing.Point(24, 38);
             this.SelectionBlancs.Name = "SelectionBlancs";
             this.SelectionBlancs.Size = new System.Drawing.Size(121, 24);

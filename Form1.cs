@@ -1,5 +1,6 @@
 ﻿using IADames.Moteur;
 using IADames.Pieces;
+using IAEchecs.IA;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace IADames
             
         }
 
+
         private void MainWindowForm_Load(object sender, EventArgs e)
         {
             CasesDames = new CaseDames[10, 10];
@@ -36,8 +38,24 @@ namespace IADames
                 }
             }
 
-            SelectionBlancs.DataSource = JoueursPossibles;
-           
+            SelectionBlancs.DataSource = JoueursPossibles.Clone();
+            SelectionNoirs.DataSource = JoueursPossibles.Clone();
+
+        }
+
+        Joueur JoueurFromString(string nom, bool estBlanc)
+        {
+            switch(nom)
+            {
+                case "Humain":
+                    return new JoueurHumain(estBlanc, this);
+
+                case "IALouis":
+                    return new IALouis(estBlanc);
+
+                default:
+                    throw new NotImplementedException("Cette IA n'existe pas : " + nom);
+            }
         }
 
         public void AfficherPlateau(Plateau plateau)
@@ -81,7 +99,7 @@ namespace IADames
             
             try {
                 annulation = new CancellationTokenSource();
-                Jeu = new Jeu(new JoueurHumain(true, this), new JoueurHumain(false, this), this); 
+                Jeu = new Jeu(JoueurFromString((string)SelectionBlancs.SelectedItem, true), JoueurFromString((string)SelectionNoirs.SelectedItem, false), this); 
                 await Jeu.Jouer(annulation.Token);
 
             }
