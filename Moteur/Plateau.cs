@@ -97,15 +97,18 @@ namespace IADames.Moteur
 
             Coords tmp = new Coords();
             origine = mouv.Depart;
+            Coords direction;
             Grille[origine.X, origine.Y] = null;
             foreach (var coord in mouv.Sauts)
             {
-                tmp = coord - origine;
-                if (tmp.Longueur() == 2)
+                direction = (coord - origine).GetVraiUnitaire();
+                tmp = origine;
+                do
                 {
-                    tmp = origine + tmp / 2;
+                    tmp += direction;
                     Grille[tmp.X, tmp.Y] = null;
-                }
+                } while (tmp.X != coord.X);
+              
                 origine = coord;
             }
             //ici, origine vaut la derniere case du deplacement
