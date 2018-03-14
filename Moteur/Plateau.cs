@@ -72,7 +72,7 @@ namespace IADames.Moteur
                 }
             }
 
-            return nbsPrises.Max();
+            return nbsPrises.Count>0?nbsPrises.Max():0;
         }
 
         internal bool Effectuer(Mouvement mouv, bool joueurEstBlanc)
@@ -115,6 +115,34 @@ namespace IADames.Moteur
             Grille[origine.X, origine.Y] = piece;
             return true;
 
+        }
+
+        internal bool EstTermine()
+        {
+            bool blancExiste = false;
+            bool noirExiste = false;
+            Piece tmpPiece = null;
+            for (int j = 9; j >= 0; j--)
+            {
+                for (int i = 0; i < TAILLE; i++)
+                {
+                    tmpPiece = Grille[i, j];
+                    if (tmpPiece == null) continue;
+
+                    if (tmpPiece.EstBlanc)
+                    {
+                        blancExiste = true;
+                    }
+                    else
+                    {
+                        noirExiste = true;
+                    }
+
+                    if (blancExiste && noirExiste) return false;
+
+                }
+            }
+            return true;
         }
 
         public void Print()

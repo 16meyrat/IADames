@@ -14,6 +14,8 @@ namespace IADames
         private Jeu Jeu;
         CancellationTokenSource annulation;
 
+        public static readonly string[] JoueursPossibles = new string[] { "Humain", "IALouis" };
+
         public MainWindowForm()
         {
             InitializeComponent();
@@ -33,6 +35,8 @@ namespace IADames
                     plateauLayout.Controls.Add(cellule, i, 9-j);
                 }
             }
+
+            SelectionBlancs.DataSource = JoueursPossibles;
            
         }
 
@@ -48,9 +52,10 @@ namespace IADames
             }
         }
 
-        public void AfficherTour(bool tourDesBlancs)
+        public void AfficherTour(bool tourDesBlancs, string message)
         {
             Console.WriteLine("Tour des " + (tourDesBlancs ? "Blancs" : "Noirs"));
+            Informations.Invoke(new Action(() => Informations.Text = message));
         }
 
         private async void boutonDemarrer_Click(object sender, EventArgs e)
@@ -90,6 +95,11 @@ namespace IADames
                 annulation = null;
             }
             
+        }
+
+        public void AfficherGagnant(bool estBlanc)
+        {
+            MessageBox.Show("Les "+(estBlanc?"Blancs":"Noirs")+" ont gagné !", "Dames Internationales", MessageBoxButtons.OK);
         }
 
     }

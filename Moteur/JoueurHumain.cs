@@ -38,20 +38,18 @@ namespace IADames.Moteur
             while (!valide)
             {
                 mouvement = null;
-                annulation.Register(() => aJoue.TrySetCanceled(annulation), true);
                 aJoue = new TaskCompletionSource<Mouvement>(annulation);
+                annulation.Register(() => aJoue.TrySetCanceled(annulation), true);
                 nbDePrisesTmp = 0;
 
                 try
                 {
                     mouvFinal = aJoue.Task.Result;
-
                 }
                 catch (AggregateException)
                 {
                     throw new OperationCanceledException();
                 }
-                
 
                 Console.WriteLine("mouv choisi");
                 Plateau test = new Plateau(plateau);
