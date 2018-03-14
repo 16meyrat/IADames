@@ -111,5 +111,10 @@ namespace IADames.Pieces
 
             return false;
         }
+
+        public override string ToString()
+        {
+            return "pion";
+        }
     }
 }

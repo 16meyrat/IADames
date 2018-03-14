@@ -41,7 +41,8 @@ namespace IADames.Moteur
                         {
                             Console.WriteLine("Les Blancs ont voulu jouer un coup incorrect");
                         }
-                        Console.WriteLine("fin tour");
+                        Plateau.FairePromotions();
+                        Console.WriteLine("fin tour Blancs");
                         ui.AfficherPlateau(Plateau);
 
                         ui.AfficherTour(false);
@@ -49,6 +50,8 @@ namespace IADames.Moteur
                         {
                             Console.WriteLine("Les Noirs ont voulu jouer un coup incorrect");
                         }
+                        Plateau.FairePromotions();
+                        Console.WriteLine("fin tour Noirs");
                         ui.AfficherPlateau(Plateau);
                     }
                 }

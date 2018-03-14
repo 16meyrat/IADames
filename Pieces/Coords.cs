@@ -30,7 +30,13 @@ namespace IADames.Pieces
 
         public bool EstDiag() => Math.Abs(X) == Math.Abs(Y);
 
-        public int Longueur() => Math.Abs(X);
+        public sbyte Longueur() => Math.Abs(X);
+
+        //un vecteur diagonal unitaire a sa coordonne X à 1
+        public Coords GetUnitaire() => this / X;
+
+        //sa norme absolue est egale a un, mais il a le meme sens que la Coord
+        public Coords GetVraiUnitaire() => this / Math.Abs(X);
 
         public static bool operator ==(Coords l, Coords r) => l.X == r.X && l.Y == r.Y;
 
@@ -42,6 +48,7 @@ namespace IADames.Pieces
         {
             return obj.GetType() == GetType() && Equals((Coords)obj);
         }
+        public static Coords operator -(Coords p) => new Coords((sbyte)-p.X, (sbyte)-p.Y);
 
         public static Coords operator +(Coords a, Coords b) => new Coords((sbyte)(a.X + b.X), (sbyte)(a.Y + b.Y));
 

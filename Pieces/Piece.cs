@@ -13,6 +13,11 @@ namespace IADames.Pieces
     {
         internal bool flag = false; // ce flag doit etre nettoye apres utilisation. A utiliser pour ce qu'on veut 
 
+        public static readonly Coords[] DIRECTIONS = { new Coords(1, 1), new Coords(-1, 1), new Coords(-1, -1), new Coords(1, -1) };
+
+        public static readonly Coords DIAG1 = new Coords(1, 1);
+        public static readonly Coords DIAG2 = new Coords(1, -1);
+
         public Piece(bool estBlanc)
         {
             EstBlanc = estBlanc;

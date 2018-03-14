@@ -10,31 +10,35 @@ namespace IADames.Moteur
 {
     public class Plateau
     {
-        public Piece[,] Grille { get; private set; } = new Piece[10, 10];
+        public const byte TAILLE = 10;
+
+        public Piece[,] Grille { get; private set; } = new Piece[TAILLE, TAILLE];
         public bool EstEchec { get; private set; } = false;
 
-        public Plateau()
+        public Plateau(bool plein = true)
         {
-            for (int x = 0; x < 10; x++)
+            if (plein)
             {
-                for (int y = 0; y < 5; y++)
+                for (int x = 0; x < TAILLE; x++)
                 {
-                    if ((x + y) % 2 == 0)
+                    for (int y = 0; y < 5; y++)
                     {
-                        Grille[x, y] = new Pion(true);
+                        if ((x + y) % 2 == 0)
+                        {
+                            Grille[x, y] = new Pion(true);
+                        }
                     }
-                }
 
-                for (int y = 6; y < 10; y++)
-                {
-                    if ((x + y) % 2 == 0)
+                    for (int y = 6; y < TAILLE; y++)
                     {
-                        Grille[x, y] = new Pion(false);
+                        if ((x + y) % 2 == 0)
+                        {
+                            Grille[x, y] = new Pion(false);
+                        }
                     }
                 }
             }
-           
-           
+
         }
 
         public Plateau(Plateau autre)
@@ -45,7 +49,7 @@ namespace IADames.Moteur
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool EstDansLePlateau(Coords coords)
         {
-            return coords.X>=0 && coords.Y>=0 && coords.X < 10 && coords.Y < 10;
+            return coords.X >= 0 && coords.Y >= 0 && coords.X < TAILLE && coords.Y < TAILLE;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -57,9 +61,9 @@ namespace IADames.Moteur
         internal int GetMaxPrisesPossible(bool joueurEstBlanc)
         {
             List<int> nbsPrises = new List<int>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < TAILLE; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < TAILLE; j++)
                 {
                     if (Grille[i, j]?.EstBlanc == joueurEstBlanc)
                     {
@@ -75,9 +79,9 @@ namespace IADames.Moteur
         {
             Piece piece = Get(mouv.Depart);
             Coords origine = mouv.Depart;
-            if (piece == null || piece.EstBlanc != joueurEstBlanc || mouv.Sauts.Count==0) return false;
+            if (piece == null || piece.EstBlanc != joueurEstBlanc || mouv.Sauts.Count == 0) return false;
             int nbPrises = 0;
-            foreach(var coord in mouv.Sauts)
+            foreach (var coord in mouv.Sauts)
             {
                 if (!piece.EstSimplementValide(this, origine, coord, ref nbPrises)) return false;
                 origine = coord;
@@ -85,12 +89,12 @@ namespace IADames.Moteur
             //verification du meilleur mouvement possible
             if (nbPrises < GetMaxPrisesPossible(joueurEstBlanc))
             {
-                Console.WriteLine("Il existe un coup qui prend plus de pions que "+nbPrises);
+                Console.WriteLine("Il existe un coup qui prend plus de pions que " + nbPrises);
                 return false;
             }
 
             //on a le meilleur mouvement, et il est valide : on peut l'effectuer
-            
+
             Coords tmp = new Coords();
             origine = mouv.Depart;
             Grille[origine.X, origine.Y] = null;
@@ -108,6 +112,35 @@ namespace IADames.Moteur
             Grille[origine.X, origine.Y] = piece;
             return true;
 
+        }
+
+        public void Print()
+        {
+            for (int j = 9; j >= 0; j--)
+            {
+                for (int i = 0; i < TAILLE; i++)
+                {
+                    Console.Write(Grille[i, j]==null ? "____  " : Grille[i, j].ToString() + " ");
+                }
+                Console.Write('\n');
+            }
+
+
+        }
+        public void FairePromotions()
+        {
+            for(int i =0; i< TAILLE; i++)
+            {
+                if(Grille[i, 0] is Pion && !Grille[i, 0].EstBlanc)
+                {
+                    Grille[i, 0] = new Dame(false);
+                    return; //micro-optimisation, si on appelle cette fonction à la fin de chaque tour
+                }
+                if (Grille[i, TAILLE-1] is Pion && Grille[i, TAILLE-1].EstBlanc)
+                {
+                    Grille[i, TAILLE - 1] = new Dame(true);
+                }
+            }
         }
 
 
