@@ -51,7 +51,7 @@ namespace IADames
                     return new JoueurHumain(estBlanc, this);
 
                 case "IALouis":
-                    return new IALouis(estBlanc);
+                    return new IALouis(estBlanc, 2);
 
                 default:
                     throw new NotImplementedException("Cette IA n'existe pas : " + nom);

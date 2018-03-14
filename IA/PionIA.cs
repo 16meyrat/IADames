@@ -15,7 +15,7 @@ namespace IADames.IA
         }
 
 
-        internal override void MajMouvementsPossibles(PlateauIA plateau, ref Coords position, ref List<Mouvement> autresMouvements, ref int valeurDesPrecedents)
+        internal override void MajMouvementsPossibles(PlateauIA plateau, Coords position, ref List<Mouvement> autresMouvements, ref int valeurDesPrecedents)
         {
 
 
@@ -72,7 +72,7 @@ namespace IADames.IA
                         {
                             // flag pour ne pas ressauter des pieces
                             var tmp = new Mouvement(coups);
-                            coups.Sauts.Enqueue(tmpPos);
+                            tmp.Sauts.Enqueue(tmpPos);
                             tmpPiece.flag = true;
                             GetMouvementsPossiblesRec(plateau, possibles, ref tmpPos, tmp, nbPrises + 1);
                             tmpPiece.flag = false;

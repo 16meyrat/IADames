@@ -55,6 +55,15 @@ namespace IADames.Moteur
             }
             
         }
+        public override string ToString()
+        {
+            string res = Depart.ToString();
+            foreach(var saut in Sauts)
+            {
+                res += " , " + saut;
+            }
+            return res;
+        }
 
       
     }

@@ -24,7 +24,7 @@ namespace IADames.IA
         {
             EstBlanc = estBlanc;
         }
-        internal abstract void MajMouvementsPossibles(PlateauIA plateau, ref Coords position, ref List<Mouvement> autresMouvements, ref int valeurDesPrecedents);//prend en compte la piece dans la liste des mouvements possibles
+        internal abstract void MajMouvementsPossibles(PlateauIA plateau, Coords position, ref List<Mouvement> autresMouvements, ref int valeurDesPrecedents);//prend en compte la piece dans la liste des mouvements possibles
 
     }
 }

@@ -85,7 +85,98 @@ namespace IADames.IA
             }
             return true;
         }
-        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal void GetMouvementsPossibles(out List<Mouvement> mouvementsPossibles)
+        {
+            mouvementsPossibles = new List<Mouvement>();
+            int nbCoupsObligatoire = 0;
+            for (sbyte j = Plateau.TAILLE - 1; j >= 0; j--)
+            {
+                for (sbyte i = 0; i < Plateau.TAILLE; i++)
+                {
+                    if (Grille[i, j] != null)
+                    {
+                        Grille[i, j].MajMouvementsPossibles(this, new Coords(i, j), ref mouvementsPossibles, ref nbCoupsObligatoire);
+                    }
+                }
+            }
+        }
 
+        internal int Negamax(int depth, int alpha, int beta, bool estBlanc)
+        {
+            if (depth == 0)
+            {
+                return Evaluer(estBlanc);
+            }
+            if (EstTermine()) return int.MinValue + 1;
+            GetMouvementsPossibles(out List<Mouvement> mouvementsPossibles);
+
+            PlateauIA tmp;
+            int maxi = int.MinValue;
+            int tmpVal;
+            for (int i =0; i<mouvementsPossibles.Count; i++)
+            {
+                tmp = new PlateauIA(this);
+                tmp.Effectuer(mouvementsPossibles[i]);
+                tmpVal = tmp.Negamax(depth - 1, -beta, -alpha, !estBlanc);
+                maxi = Math.Max(tmpVal, maxi);
+                alpha = Math.Max(tmpVal, alpha);
+                if (alpha >= beta) break;
+                
+            }
+            return maxi;
+
+        }
+
+
+        private int Evaluer(bool estBlanc)
+        {
+            int res = 0;
+            for (int j = Plateau.TAILLE - 1; j >= 0; j--)
+            {
+                for (int i = 0; i < Plateau.TAILLE; i++)
+                {
+                    if(Grille[i, j] != null)
+                    {
+                        if(Grille[i, j].EstBlanc)
+                        {
+                            res++;
+                        }
+                        else
+                        {
+                            res--;
+                        }
+                    }
+                }
+            }
+            if (!estBlanc) return -res;
+            return res;
+        }
+        //aucun test de véricafivation
+        internal void Effectuer(Mouvement mouv)
+        {
+            PieceIA piece = Get(mouv.Depart);
+            Coords origine = mouv.Depart;
+
+            Coords tmp = new Coords();
+            origine = mouv.Depart;
+            Coords direction;
+            Grille[origine.X, origine.Y] = null;
+            foreach (var coord in mouv.Sauts)
+            {
+                direction = (coord - origine).GetVraiUnitaire();
+                tmp = origine;
+                do
+                {
+                    tmp += direction;
+                    Grille[tmp.X, tmp.Y] = null;
+                } while (tmp.X != coord.X);
+
+                origine = coord;
+            }
+            //ici, origine vaut la derniere case du deplacement
+            Grille[origine.X, origine.Y] = piece;
+
+        }
     }
 }
