@@ -21,6 +21,11 @@ namespace IADames.Moteur
             Depart = depart;
             Sauts = new Queue<Coords>();
         }
+        public Mouvement(Mouvement autre)
+        {
+            Depart = autre.Depart;
+            Sauts = new Queue<Coords>(autre.Sauts);
+        }
         public Coords DernierePosition()
         {
             return Sauts.Count > 0 ? Sauts.Last() : Depart;

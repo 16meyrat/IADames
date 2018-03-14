@@ -39,7 +39,7 @@ namespace IADames.Pieces
             return maxi;
             
         }
-        private Coords[] GetDirections()
+        protected Coords[] GetDirections()
         {
             if (EstBlanc)
             {

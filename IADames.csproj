@@ -56,7 +56,11 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="IA\DameIA.cs" />
     <Compile Include="IA\IALouis.cs" />
+    <Compile Include="IA\PieceIA.cs" />
+    <Compile Include="IA\PionIA.cs" />
+    <Compile Include="IA\PlateauIA.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="Moteur\IAffichageEchec.cs" />
     <Compile Include="Moteur\Jeu.cs" />
