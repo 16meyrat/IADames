@@ -2,6 +2,7 @@
 using IADames.Moteur;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -20,6 +21,10 @@ namespace IAEchecs.IA
 
         public override Mouvement Jouer(Plateau plateau, CancellationToken annulation)
         {
+            Stopwatch stopwatch = new Stopwatch();
+
+            // Begin timing.
+            stopwatch.Start();
 
             PlateauIA plat = new PlateauIA(plateau);
             plat.GetMouvementsPossibles(EstBlanc, out List<Mouvement> mouvementsPossibles);
@@ -45,6 +50,9 @@ namespace IAEchecs.IA
             }
             Console.WriteLine(meilleurMouv);
             Console.WriteLine("maxi : " + maxi);
+
+            stopwatch.Stop();
+            if(stopwatch.ElapsedMilliseconds<500) Thread.Sleep(500-(int)stopwatch.ElapsedMilliseconds);
             return meilleurMouv;
         }
     }
