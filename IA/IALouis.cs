@@ -16,25 +16,34 @@ namespace IAEchecs.IA
         public IALouis(bool estBlanc, int niveau) : base(estBlanc)
         {
             this.niveau = niveau;
+            if (estBlanc) this.niveau = 3;
+            if (!estBlanc) this.niveau = 1;
         }
 
         public override Mouvement Jouer(Plateau plateau, CancellationToken annulation)
         {
+
             PlateauIA plat = new PlateauIA(plateau);
-            plat.GetMouvementsPossibles(out List<Mouvement> mouvementsPossibles);
+            plat.GetMouvementsPossibles(EstBlanc, out List<Mouvement> mouvementsPossibles);
             PlateauIA tmp;
             int maxi = int.MinValue;
-            Mouvement meilleurMouv = mouvementsPossibles[0];//TODO : gérer les égalités
+            Mouvement meilleurMouv = null;//TODO : gérer les égalités
             int tmpVal;
             for (int i = 0; i < mouvementsPossibles.Count; i++)
             {
                 tmp = new PlateauIA(plat);
                 tmp.Effectuer(mouvementsPossibles[i]);
-                tmpVal = tmp.Negamax(niveau, int.MinValue, int.MaxValue, EstBlanc);
-                maxi = Math.Max(tmpVal, maxi);
-                meilleurMouv = mouvementsPossibles[i];
+                tmpVal = -tmp.Negamax(niveau, int.MinValue, int.MaxValue, !EstBlanc);
+                Console.WriteLine(mouvementsPossibles[i].Sauts.Last() + " : " + tmpVal);
+                if (tmpVal >= maxi)
+                {
+                    meilleurMouv = mouvementsPossibles[i];
+                    maxi = tmpVal;
+                }
+                
             }
             Console.WriteLine(meilleurMouv);
+            Console.WriteLine("maxi : " + maxi);
             return meilleurMouv;
         }
     }

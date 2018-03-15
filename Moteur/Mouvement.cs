@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IADames.Moteur
 {
-    class Mouvement
+    public class Mouvement
     {
         public Coords Depart { get; set; }
         public Queue<Coords> Sauts { get; private set; }

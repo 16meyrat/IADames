@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace IADames.IA
 {
 
-    abstract class PieceIA
+    public abstract class PieceIA
     {
         internal bool flag = false; // ce flag doit etre nettoye apres utilisation. A utiliser pour ce qu'on veut 
 

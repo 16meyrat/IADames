@@ -9,7 +9,7 @@ using IADames.Pieces;
 
 namespace IADames.IA
 {
-    class DameIA : PieceIA
+    public class DameIA : PieceIA
     {
 
         public DameIA(bool estBlanc) : base(estBlanc)
@@ -81,7 +81,8 @@ namespace IADames.IA
         }
         private void GetMouvementsPossiblesRec(PlateauIA plateau, Stack<Tuple<int, Mouvement>> possibles, Mouvement coups, ref Coords origine, Coords directionOrigineDirecteur, int nbPrises = 0)
         {
-            possibles.Push(new Tuple<int, Mouvement>(nbPrises, coups));
+            if(coups.Sauts.Count>0)
+                possibles.Push(new Tuple<int, Mouvement>(nbPrises, coups));
             
             Coords tmpPos = origine;
             PieceIA tmpPiece = null;
@@ -102,6 +103,12 @@ namespace IADames.IA
                         tmpCoups.Sauts.Enqueue(tmpPos);
                         GetMouvementsPossiblesRec(plateau, possibles, tmpCoups, ref tmpPos, direction, tmpPrises);
                         tmpPiece.flag = false;
+                    }
+                    else
+                    {
+                        var tmpCoups = new Mouvement(coups);
+                        tmpCoups.Sauts.Enqueue(tmpPos);
+                        possibles.Push(new Tuple<int, Mouvement>(nbPrises, tmpCoups));
                     }
 
                 }
@@ -136,8 +143,14 @@ namespace IADames.IA
                         var tmpCoups = new Mouvement(coups);
                         tmpCoups.Sauts.Enqueue(tmpPos);
                         tmpPiece.flag = true;
-                        GetMouvementsPossiblesRec(plateau, possibles, coups, ref tmpPos, direction, tmpPrises);
+                        GetMouvementsPossiblesRec(plateau, possibles, tmpCoups, ref tmpPos, direction, tmpPrises);
                         tmpPiece.flag = false;
+                    }
+                    else if (coups.Sauts.Count==0)
+                    {
+                        var tmpCoups = new Mouvement(coups);
+                        tmpCoups.Sauts.Enqueue(tmpPos);
+                        possibles.Push(new Tuple<int, Mouvement>(nbPrises, tmpCoups));
                     }
 
                 }
@@ -164,8 +177,14 @@ namespace IADames.IA
                         var tmpCoups = new Mouvement(coups);
                         tmpCoups.Sauts.Enqueue(tmpPos);
                         tmpPiece.flag = true;
-                        GetMouvementsPossiblesRec(plateau, possibles, coups, ref tmpPos, direction, tmpPrises);
+                        GetMouvementsPossiblesRec(plateau, possibles, tmpCoups, ref tmpPos, -direction, tmpPrises);
                         tmpPiece.flag = false;
+                    }
+                    else if (coups.Sauts.Count == 0)
+                    {
+                        var tmpCoups = new Mouvement(coups);
+                        tmpCoups.Sauts.Enqueue(tmpPos);
+                        possibles.Push(new Tuple<int, Mouvement>(nbPrises, tmpCoups));
                     }
 
                 }

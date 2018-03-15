@@ -21,7 +21,7 @@ namespace IADames.Moteur
             {
                 for (int x = 0; x < TAILLE; x++)
                 {
-                    for (int y = 0; y < 5; y++)
+                    for (int y = 0; y < 4; y++)
                     {
                         if ((x + y) % 2 == 0)
                         {

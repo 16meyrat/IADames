@@ -40,11 +40,12 @@ namespace IADames.Moteur
                         if (!Plateau.Effectuer(JoueurB.Jouer(new Plateau(Plateau), annulation), true))
                         {
                             Console.WriteLine("Les Blancs ont voulu jouer un coup incorrect");
+                            throw new Exception("debug");
                         }
                         Plateau.FairePromotions();
                         Console.WriteLine("fin tour Blancs");
                         ui.AfficherPlateau(Plateau);
-                        VerifierGagnant(true);
+                        if (VerifierGagnant(true)) return; ;
 
                         AfficherTour(false);
                         if (!Plateau.Effectuer(JoueurN.Jouer(new Plateau(Plateau), annulation), false))
@@ -54,7 +55,7 @@ namespace IADames.Moteur
                         Plateau.FairePromotions();
                         Console.WriteLine("fin tour Noirs");
                         ui.AfficherPlateau(Plateau);
-                        VerifierGagnant(false);
+                        if (VerifierGagnant(false)) return; ;
                     }
                 }
                 catch (OperationCanceledException)
@@ -80,12 +81,14 @@ namespace IADames.Moteur
             }
         }
 
-        private void VerifierGagnant(bool estBlanc)
+        private bool VerifierGagnant(bool estBlanc)
         {
             if (Plateau.EstTermine())
             {
                 ui.AfficherGagnant(estBlanc);
+                return true;
             }
+            return false;
         }
     }
 }

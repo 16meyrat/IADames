@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IADames.IA
 {
-    class PionIA :PieceIA
+    public class PionIA :PieceIA
     {
         public PionIA(bool estBlanc) : base(estBlanc)
         {
@@ -56,14 +56,23 @@ namespace IADames.IA
             Coords tmpPos;
             PieceIA tmpPiece;
             Coords[] directions = GetDirections();
-
-            possibles.Push(new Tuple<int, Mouvement>(nbPrises, coups));
+            if(coups.Sauts.Count>0)
+                possibles.Push(new Tuple<int, Mouvement>(nbPrises, coups));
             for (int i = 0; i < 4; i++)
             {
                 tmpPos = origine + directions[i];
                 if (Plateau.EstDansLePlateau(tmpPos))
                 {
                     tmpPiece = plateau.Get(tmpPos);
+                    if (i < 2 && nbPrises==0)//si le mouvement est vers l'avant, sans prise
+                    {
+                        if(tmpPiece == null)
+                        {
+                            var tmp = new Mouvement(coups);
+                            tmp.Sauts.Enqueue(tmpPos);
+                            possibles.Push(new Tuple<int, Mouvement>(0, tmp));
+                        }
+                    }
                     if (tmpPiece != null && tmpPiece.EstBlanc != EstBlanc && !tmpPiece.flag)
                     {
 

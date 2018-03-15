@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace IADames.IA
 {
-    class PlateauIA
+    public class PlateauIA
     {
         public PieceIA[,] Grille;
 
@@ -86,7 +86,7 @@ namespace IADames.IA
             return true;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal void GetMouvementsPossibles(out List<Mouvement> mouvementsPossibles)
+        public void GetMouvementsPossibles(bool estBlanc, out List<Mouvement> mouvementsPossibles)
         {
             mouvementsPossibles = new List<Mouvement>();
             int nbCoupsObligatoire = 0;
@@ -94,7 +94,7 @@ namespace IADames.IA
             {
                 for (sbyte i = 0; i < Plateau.TAILLE; i++)
                 {
-                    if (Grille[i, j] != null)
+                    if (Grille[i, j]?.EstBlanc == estBlanc)
                     {
                         Grille[i, j].MajMouvementsPossibles(this, new Coords(i, j), ref mouvementsPossibles, ref nbCoupsObligatoire);
                     }
@@ -102,14 +102,14 @@ namespace IADames.IA
             }
         }
 
-        internal int Negamax(int depth, int alpha, int beta, bool estBlanc)
+        public int Negamax(int depth, int alpha, int beta, bool estBlancTour)
         {
             if (depth == 0)
             {
-                return Evaluer(estBlanc);
+                return Evaluer(estBlancTour);
             }
-            if (EstTermine()) return int.MinValue + 1;
-            GetMouvementsPossibles(out List<Mouvement> mouvementsPossibles);
+            if (EstTermine()) return (int.MinValue + 10);
+            GetMouvementsPossibles(estBlancTour, out List<Mouvement> mouvementsPossibles);
 
             PlateauIA tmp;
             int maxi = int.MinValue;
@@ -118,7 +118,7 @@ namespace IADames.IA
             {
                 tmp = new PlateauIA(this);
                 tmp.Effectuer(mouvementsPossibles[i]);
-                tmpVal = tmp.Negamax(depth - 1, -beta, -alpha, !estBlanc);
+                tmpVal = -tmp.Negamax(depth - 1, -beta, -alpha, !estBlancTour);
                 maxi = Math.Max(tmpVal, maxi);
                 alpha = Math.Max(tmpVal, alpha);
                 if (alpha >= beta) break;
@@ -140,16 +140,20 @@ namespace IADames.IA
                     {
                         if(Grille[i, j].EstBlanc)
                         {
+                            if (Grille[i, j] is DameIA) res += 9;
                             res++;
                         }
                         else
                         {
+                            if (Grille[i, j] is DameIA) res -= 9;
                             res--;
                         }
                     }
                 }
             }
-            if (!estBlanc) return -res;
+            if (!estBlanc) {
+                return -res;
+                }
             return res;
         }
         //aucun test de véricafivation
