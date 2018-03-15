@@ -32,6 +32,22 @@ namespace IAEchecs.IA
             Random rnd = new Random();
             mouvementsPossibles.OrderBy(a => rnd.Next());
             PlateauIA tmp;
+            Task<int>[] pool = new Task<int>[mouvementsPossibles.Count];
+            //creation des Task
+            for (int i = 0; i < mouvementsPossibles.Count; i++)
+            {
+                pool[i] = new Task<int>((param) =>
+                {
+                    tmp = new PlateauIA(plat);
+                    tmp.Effectuer(mouvementsPossibles[(int)param]);
+                    return -tmp.Negamax(niveau, int.MinValue, int.MaxValue, !EstBlanc);
+                }, i,  annulation);
+                pool[i].Start();
+               
+            }
+
+            Task.WaitAll(pool, annulation);
+
             int maxi = int.MinValue;
             Mouvement meilleurMouv = null;//TODO : gérer les égalités
             int tmpVal;
@@ -39,7 +55,7 @@ namespace IAEchecs.IA
             {
                 tmp = new PlateauIA(plat);
                 tmp.Effectuer(mouvementsPossibles[i]);
-                tmpVal = -tmp.Negamax(niveau, int.MinValue, int.MaxValue, !EstBlanc);
+                tmpVal = pool[i].Result;
                 //Console.WriteLine(mouvementsPossibles[i].Sauts.Last() + " : " + tmpVal);
                 if (tmpVal >= maxi)
                 {
