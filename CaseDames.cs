@@ -89,10 +89,14 @@ namespace IADames
 
         public void Reinitialiser()
         {
-            foreach (Delegate d in CaseCliqueeEvent.GetInvocationList())
+            if(CaseCliqueeEvent != null)
             {
-                CaseCliqueeEvent -= (EventHandler<SelectionCaseEventArg>)d;
+                foreach (Delegate d in CaseCliqueeEvent.GetInvocationList())
+                {
+                    CaseCliqueeEvent -= (EventHandler<SelectionCaseEventArg>)d;
+                }
             }
+           
             
             Piece = null;
         }

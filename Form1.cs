@@ -15,7 +15,7 @@ namespace IADames
         private Jeu Jeu;
         CancellationTokenSource annulation;
 
-        public static readonly string[] JoueursPossibles = new string[] { "Humain", "IALouis" };
+        public static readonly string[] JoueursPossibles = new string[] { "Humain", "Steph", "Sora", "Shiro", "Tet",  "Kūhaku" };
 
         public MainWindowForm()
         {
@@ -50,8 +50,20 @@ namespace IADames
                 case "Humain":
                     return new JoueurHumain(estBlanc, this);
 
-                case "IALouis":
-                    return new IALouis(estBlanc, 4);
+                case "Steph":
+                    return new IALouis(estBlanc, 1);
+
+                case "Sora":
+                    return new IALouis(estBlanc, 3);
+
+                case "Shiro":
+                    return new IALouis(estBlanc, 5);
+
+                case "Tet":
+                    return new IALouis(estBlanc, 7);
+
+                case "Kūhaku":
+                    return new IALouis(estBlanc, 9);
 
                 default:
                     throw new NotImplementedException("Cette IA n'existe pas : " + nom);

@@ -15,6 +15,8 @@ namespace IADames.Moteur
         public Piece[,] Grille { get; private set; } = new Piece[TAILLE, TAILLE];
         public bool EstEchec { get; private set; } = false;
 
+        public int TourSansAction { get; private set; }//TODO : parties nulles
+
         public Plateau(bool plein = true)
         {
             if (plein)
